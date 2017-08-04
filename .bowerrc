@@ -1,0 +1,8 @@
+{
+  "directory": "./components/",
+  "analytics": false,
+  "scripts": {
+    "postinstall": "npm install"
+  }
+}
+

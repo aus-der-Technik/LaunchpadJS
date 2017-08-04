@@ -1,0 +1,46 @@
+{
+	"rules": {
+		"use-isnan": 2,
+		"default-case": 1,
+		"no-prototype-builtins": 2,
+		"no-extra-semi": 1,
+		"no-duplicate-case": 2,
+		"no-constant-condition": 2,
+		"no-sparse-arrays": 2,
+		"no-template-curly-in-string": 2,
+		"no-invalid-regexp": 2,
+		"no-unsafe-finally": 2,
+		"no-empty-character-class": 2,
+		"no-func-assign": 2,
+		"no-regex-spaces": 2,
+		"no-ex-assign": 2,
+		"indent": 1,
+		"no-irregular-whitespace": 0,
+		"no-extra-parens": 0,
+		"no-empty": 1,
+		"no-dupe-args": 2,
+		"no-obj-calls": 2,
+		"no-dupe-keys": 2,
+		"valid-jsdoc": 0,
+		"no-extra-boolean-cast": 1,
+		"valid-typeof": 2,
+		"no-eval": 2,
+		"no-unreachable": 2,
+		"no-debugger": 2,
+		"curly": 1,
+		"no-unexpected-multiline": 2,
+		"no-unsafe-negation": 2,
+		"no-console": 1,
+		"semi": 1
+	},
+	"parserOptions": {
+		"ecmaVersion": 6,
+		"ecmaFeatures": {
+			"jsx": true
+		},
+		"sourceType": "module"
+	},
+	"env": {
+		"node": true
+	}
+}

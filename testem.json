@@ -1,0 +1,13 @@
+{
+	"routes": {
+
+	},
+	"src_files": [
+		"components/underscore/underscore-min.js",
+		"node_modules/chai/chai.js",
+		"components/requirejs/require.js",
+		"tests/browser/web.js",
+		"tests/browser/launchpad/**/*.js"
+	],
+	"framework": "mocha"
+}

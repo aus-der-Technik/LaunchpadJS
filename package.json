@@ -1,0 +1,46 @@
+{
+	"readmeFilename": "README.md",
+	"devDependencies": {
+		"eslint": "^3.14.1",
+		"grunt-contrib-clean": "^1.0.0",
+		"mocha": "^3.2.0",
+		"grunt-text-replace": "^0.4.0",
+		"grunt-cli": "^1.2.0",
+		"bower": "^1.8.0",
+		"grunt-copy-to": "0.0.12",
+		"grunt-contrib-compress": "^1.4.1",
+		"grunt-eslint": "^19.0.0",
+		"grunt-contrib-uglify": "^2.0.0",
+		"grunt": "^1.0.1",
+		"testem": "^1.14.3",
+		"load-grunt-tasks": "^3.5.2",
+		"grunt-mkdir": "^1.0.0",
+		"grunt-contrib-requirejs": "^1.0.0",
+		"chai": "^3.5.0"
+	},
+	"description": "A taskmanager for JavaScript",
+	"keywords": [
+		"taskmanager",
+		"queue",
+		"processmodeling"
+	],
+	"repository": {
+		"url": "https://gitlab.ausdertechnik.de/adt-opensource/LaunchbarJS.git",
+		"type": "git"
+	},
+	"name": "LauchpadJS",
+	"author": {
+		"name": "aus der Technik - Simon & Simon GbR"
+	},
+	"style": "base.css",
+	"scripts": {
+		"postinstall": "./node_modules/bower/bin/bower install; ./node_modules/grunt-cli/bin/grunt",
+		"test": "find ./tests/ -name '*Test.js' | xargs node_modules/mocha/bin/mocha -R spec"
+	},
+	"version": "1.0.0",
+	"license": "MIT",
+	"main": "launchpad.js",
+	"dependencies": {
+		"underscore": "^1.8.3"
+	}
+}

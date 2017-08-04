@@ -1,0 +1,122 @@
+<h1>TaskManager</h1>
+
+<p>Der Taskmanager führ Aufgaben in Reihenfolge und Priorität ab. Für das Orchestrieren der 
+Aufgaben stehen Hilfsfunktionen zur Verfügung.</p>
+
+<h2>Namespaces</h2>
+
+<p>Jeder Task muss in einem Namespace zugeordnet sein. Mehrere Tasks können sich den selben 
+Namespace teilen. </p>
+
+<p>Wird ein Task ausgeführt dessen Namespace es noch nicht gibt, so wird dieser angelegt. 
+Es wird der Event <code>taskmanager::namespace::willCreate</code> 
+und <code>taskmanager::namespace::hasBeenCreated</code> geworfen.</p>
+
+<p>Ist kein Task mit einem gleichen Namespace mehr in der Queue, so wird der Namespace 
+entfernt. Es wird der Event <code>taskmanager::namesapce::willDestroy</code> 
+und <code>Taskmanager::namesapce::hasBeenDestroyed</code> geworfen.</p>
+
+<p>Namespaces werden anhand ihres Namens (String) erkannt. </p>
+
+<h2>Priorities</h2>
+
+<p>Es können die Folgenden drei Prioritäten gewählt werden un einen Task unabhängig vom 
+Namespace einzusortieren: </p>
+
+<ul>
+<li>IMMEDIATELY</li>
+<li>FOREGROUND</li>
+<li>BACKGROUND</li>
+</ul>
+
+<p>Ein Task mit niedriger Indexnummer wird immer zuerst ausgeführt, gleich in welcher 
+Priorität er sich befindet. </p>
+
+<h2>Ausführung</h2>
+
+<p>Ein Task kann parallel ausgeführt werden, Tasks in Namespaces werden immer sequeziell 
+ausgeführt. </p>
+
+<h2>API</h2>
+
+<p><code>
+    var ns = taskmanager.createNamespace('namespace');
+</code></p>
+
+<p>Erzeugt einen neuen Namespace. Wird ein Task für einen Namespace erzeugt, der noch nicht 
+existiert, wird der Namepace implizit angelegt. </p>
+
+<p>Ein Namespace ist über ns ereichtabr, oder über des TaskManages funktion <code>getNamespace(namespace)</code>.</p>
+
+<p>Ein Namespace hat die folgernden Properties: </p>
+
+<pre><code>- status (Status des Namespaces)
+    - constructing (Namespace befindet sich im Aufbau)
+    - ready (Namespace wartet auf Ausführung)
+    - running (Mindestens ein Task eines Namespaces wird ausgeführt)
+    - finished (Ausführung alles Tasks  beendet)
+    - error (Es ist ein Fehler aufgetreten, der verhindert das der Namespace weter ausgeführt wird)
+- count (Anzal aller Tasks im Namespace)
+- left (Anzahl der Tasks die noch auf die Ausführung warten)
+- running (Anzahl der Tasks die sich gerade in Ausführung befinden [0 oder 1])
+- data (Datastore auf den alle Tassk des Namespace zugreifen können)
+</code></pre>
+
+<p>Ein Namespace hat die folgenden Funktionen</p>
+
+<pre><code>- onStart(fn()) - Wenn der Status von `ready` nach `running` wechselt  
+- onFinish(fn()) - Wenn der Status von `running` nach `finished` wechselt
+- onError(fn(err)) - Wenn der Status nach `error` wechselt
+- beforeTask(fn())  - Befor ein neuer Task ausgeführt wird
+- afterTask(fn()) - Nachdem erin Task ausgeführt wurde
+- start() - Startet des Namespace und damit alle seine Tasks in ihm. Status wechelt von `constructing` zu `ready`
+- abort() - Stopt den Task! 
+- halt() - Pausiert den Task nach der aktuellen abarbeitung des laufenden Tasks
+- resume() - Lässt einen pausierten Task weiterlaufen
+</code></pre>
+
+<p>Es werden folgende Events geworfen: </p>
+
+<pre><code>- taskmanager::namespace::willCreate
+- taskmanager::namespace::didCreated
+</code></pre>
+
+<p><code>
+    var task = taskmanager.addTask('namespace', priority, taskFn);
+</code></p>
+
+<p>Fügt eine Taskfunktion in einen Namespace ein. Existiert der Namespace noch nicht, wird 
+dieser angelegt und sofort zur Ausführung gebracht. </p>
+
+<p>Die Priorität ist optional. 
+Der Namespace kann ein Namespace-Objekt sein, oder ein der Name des Namespaces als String.</p>
+
+<p>Eine Taskfunktion hat folgenden Envalope: </p>
+
+<pre><code>fn(scope, next)
+</code></pre>
+
+<p>Die Funktion muss next() aufrufen um die Ausführung weiter laufen zu lassen. next kann ein 
+optionales Error() Objetzt bekommen. 
+Der Namespace findet sich in scope wieder. Alle Propertie die an scope.* gehängt werden 
+sind über alle Tasks im Namespace verfügbar. </p>
+
+<p>Ein Task hat die folgenden Properties:</p>
+
+<pre><code>- status (Status des Tasks)
+    - stage (der Namespace ist noch im Aufbau)
+    - ready (der Task wartet auf Ausführung)
+    - running (der Task wird gerade ausgeführt)
+    - finished (der Task ist beendet)
+    - error (der Task hat einen Fehler verursacht)
+</code></pre>
+
+<p>Ein Task hat keine Funktionen. </p>
+
+<p>Es werden folgende Events geworfen: </p>
+
+<pre><code>- taskmanager::task::willCreate
+- taskmanager::task::didCreated
+- taskmanager::info::eventcount::willChange
+- taskmanager::info::eventcount::didChanged
+</code></pre>
